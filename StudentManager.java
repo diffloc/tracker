@@ -18,5 +18,9 @@ public class StudentManager {
         return students;
     }
 
-    // Add additional methods for managing students, such as retrieving, updating, or deleting students
+    public void outputStudents() {
+        OutputPrinter.printStudentList(students);
+    }
+
+    // TODO: Add additional methods for managing students, such as retrieving, updating, or deleting students
 }

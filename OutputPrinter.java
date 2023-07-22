@@ -1,5 +1,7 @@
 package tracker;
 
+import java.util.List;
+
 public class OutputPrinter {
 
     public static void printTitleMsg() {
@@ -14,11 +16,17 @@ public class OutputPrinter {
         System.out.printf("The student [%s] has been added.\n", student);
     }
 
+    public static void printStudentList(List<Student> students) {
+        for (Object student: students) {
+            System.out.println(student);
+        }
+    }
+
     public static void printInvalidCredentials() {
         System.out.println("Incorrect credentials.");
     }
 
-    public static void printErrorMsg() {
+    public static void printUnknownCommand() {
         System.out.println("Unknown command!");
     }
 

@@ -6,6 +6,8 @@ public class Student {
     private String emailAddress;
 
     public Student(String firstName, String lastName, String emailAddress) {
+
+        // Validates substring contents for valid and required characters
         this.firstName = validateFirstName(firstName);
         this.lastName = validateLastName(lastName);
         this.emailAddress = validateEmail(emailAddress);
