@@ -1,9 +1,15 @@
 package tracker;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class Student {
     private String firstName;
     private String lastName;
     private String emailAddress;
+    private int studentID;
+    private Map<Course, Integer> coursePoints;
 
     public Student(String firstName, String lastName, String emailAddress) {
 
@@ -11,6 +17,7 @@ public class Student {
         this.firstName = validateFirstName(firstName);
         this.lastName = validateLastName(lastName);
         this.emailAddress = validateEmail(emailAddress);
+        this.coursePoints = new HashMap<>();
     }
 
     private String validateFirstName(String firstName) {
@@ -40,7 +47,7 @@ public class Student {
         if (!email.matches(pattern)) {
             throw new IllegalArgumentException("Incorrect email.");
         }
-        return email;
+        return email.toLowerCase();
     }
 
     public String getFirstName() {
@@ -67,8 +74,47 @@ public class Student {
         this.emailAddress = emailAddress;
     }
 
+    public int getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
+    }
+
+
+    // Method to add or update points for a course
+    public void addCoursePoints(Map<Course, Integer> coursePoints) {
+        for (Map.Entry<Course, Integer> entry : coursePoints.entrySet()) {
+            Course course = entry.getKey();
+            int points = entry.getValue();
+            int existingPoints = this.coursePoints.getOrDefault(course, 0);
+            this.coursePoints.put(course, existingPoints + points);
+        }
+    }
+
+    // Method to get the points for a specific course
+    public int getCoursePoints(Course course) {
+        return coursePoints.getOrDefault(course, 0);
+    }
+
     @Override
     public String toString() {
-        return getFirstName() + " " + getLastName() + " " + getEmailAddress();
+        return  getStudentID() + " " + getFirstName() + " " + getLastName() + " " + getEmailAddress();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailAddress);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Student other = (Student) obj;
+        return Objects.equals(emailAddress, other.emailAddress);
     }
 }
