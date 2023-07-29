@@ -15,7 +15,7 @@ public class UI {
             switch (userChoice) {
                 case "add students" -> {
                     OutputPrinter.printEnterCredentials();
-                    String inputStudent = InputReader.readInput().strip().toLowerCase();
+                    String inputStudent = InputReader.readInput().strip(); // XXX: .toLowerCase();
                     int studentCount = 0;
                     while (!inputStudent.equalsIgnoreCase("back")) {
 
@@ -117,6 +117,19 @@ public class UI {
                 }
                 case "find" -> {
                     OutputPrinter.printFindStudent();
+                    String inputStudentID = InputReader.readInput();
+
+                    while (!inputStudentID.equalsIgnoreCase("back")) {
+                        int studentID;
+                        try {
+                            studentID = Integer.parseInt(parsedStudentPoints[0]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid student ID. Please enter a valid integer.");
+                            inputStudentPoints = InputReader.readInput();
+                            continue;
+                        }
+
+                    }
                     /**
                      * Enter an id or 'back' to return:
                      * > 10000
