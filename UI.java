@@ -122,13 +122,21 @@ public class UI {
                     while (!inputStudentID.equalsIgnoreCase("back")) {
                         int studentID;
                         try {
-                            studentID = Integer.parseInt(parsedStudentPoints[0]);
+                            studentID = Integer.parseInt(inputStudentID);
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid student ID. Please enter a valid integer.");
-                            inputStudentPoints = InputReader.readInput();
+                            inputStudentID = InputReader.readInput();
                             continue;
                         }
 
+                        Student student = studentManager.getStudentByID(studentID);
+                        if (student != null) {
+                            System.out.printf("%d points: %s\n", studentID, student.getCoursePointsString());
+                        } else {
+                            System.out.printf("No student is found for id=%d.\n", studentID);
+                        }
+
+                        inputStudentID = InputReader.readInput();
                     }
                     /**
                      * Enter an id or 'back' to return:
@@ -140,11 +148,11 @@ public class UI {
                 }
                 case "exit" -> {
                     OutputPrinter.printByeMsg();
-                    System.out.println("""
-                            ------------
-                            Student List
-                            ------------""");
-                    studentManager.outputStudents();
+                    // System.out.println("""
+                    //         ------------
+                    //         Student List
+                    //         ------------""");
+                    // studentManager.outputStudents();
                     return;
                 }
                 default -> OutputPrinter.printUnknownCommand();

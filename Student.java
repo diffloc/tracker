@@ -1,5 +1,6 @@
 package tracker;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -9,7 +10,7 @@ public class Student {
     private String lastName;
     private String emailAddress;
     private int studentID;
-    private Map<Course, Integer> coursePoints;
+    private EnumMap<Course, Integer> coursePoints;
 
     public Student(String firstName, String lastName, String emailAddress) {
 
@@ -17,7 +18,7 @@ public class Student {
         this.firstName = validateFirstName(firstName);
         this.lastName = validateLastName(lastName);
         this.emailAddress = validateEmail(emailAddress);
-        this.coursePoints = new HashMap<>();
+        this.coursePoints = new EnumMap<>(Course.class);
     }
 
     private String validateFirstName(String firstName) {
@@ -82,6 +83,21 @@ public class Student {
         this.studentID = studentID;
     }
 
+    public String getCoursePointsString() {
+        StringBuilder pointsString = new StringBuilder();
+
+        for (Course course : Course.values()) {
+            Integer points = coursePoints.getOrDefault(course, 0);
+            pointsString.append(course).append("=").append(points).append("; ");
+        }
+
+        // Remove the trailing semicolon and space
+        if (pointsString.length() > 0) {
+            pointsString.setLength(pointsString.length() - 2);
+        }
+
+        return pointsString.toString();
+    }
 
     // Method to add or update points for a course
     public void addCoursePoints(Map<Course, Integer> coursePoints) {
