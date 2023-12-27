@@ -1,8 +1,6 @@
 package tracker;
 
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class Student {
@@ -99,15 +97,11 @@ public class Student {
         return pointsString.toString();
     }
 
-    // Method to add or update points for a course
-    public void addCoursePoints(Map<Course, Integer> coursePoints) {
-        for (Map.Entry<Course, Integer> entry : coursePoints.entrySet()) {
-            Course course = entry.getKey();
-            int points = entry.getValue();
-            int existingPoints = this.coursePoints.getOrDefault(course, 0);
-            this.coursePoints.put(course, existingPoints + points);
-        }
+    public void addCoursePoints(Course course, int points) {
+        int existingPoints = this.coursePoints.getOrDefault(course, 0);
+        this.coursePoints.put(course, existingPoints + points);
     }
+
 
     // Method to get the points for a specific course
     public int getCoursePoints(Course course) {

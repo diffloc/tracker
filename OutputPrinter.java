@@ -1,6 +1,5 @@
 package tracker;
 
-import java.util.List;
 import java.util.Set;
 
 public class OutputPrinter {
@@ -9,7 +8,7 @@ public class OutputPrinter {
         System.out.println("Learning Progress Tracker");
     }
 
-    public static void printEnterCredentials() {
+    public static void promptEnterCredentials() {
         System.out.println("Enter student credentials or 'back' to return");
     }
 
@@ -30,11 +29,11 @@ public class OutputPrinter {
         }
     }
 
-    public static void printAddPoints () {
+    public static void promptAddPoints () {
         System.out.println("Enter an id and points or 'back' to return:");
     }
 
-    public static void printFindStudent() {
+    public static void promptFindStudent() {
         System.out.println("Enter an id or 'back' to return:");
     }
 
@@ -56,5 +55,15 @@ public class OutputPrinter {
 
     public static void printByeMsg() {
         System.out.println("Bye!");
+    }
+
+    public static void printGeneralStatistics(String mostPopular, String leastPopular, String highActivity, String lowActivity, String easiestCourse, String hardestCourse) {
+        System.out.println("Type the name of a course to see details or 'back' to quit");
+        System.out.println("Most popular: " + mostPopular);
+        System.out.println("Least popular: " + leastPopular);
+        System.out.println("Highest activity: " + highActivity);
+        System.out.println("Lowest activity: " + lowActivity);
+        System.out.println("Easiest course: " + easiestCourse);
+        System.out.println("Hardest course: " + hardestCourse);
     }
 }

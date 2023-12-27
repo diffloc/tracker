@@ -3,12 +3,14 @@ package tracker;
 import java.util.*;
 
 public class StudentManager {
-    // private final List<Student> students;
     private final Set<Student> students;
+    private final Map<Course, Set<Integer>> courseEnrollments = new HashMap<>();
+    private final Map<Course, Integer> courseActivityCounters = new HashMap<>();
+    private final Map<Course, Integer> courseTotalPoints = new HashMap<>();
+    private final Map<Course, Integer> courseSubmissionCounts = new HashMap<>();
     private int nextStudentID;
 
     public StudentManager() {
-        // this.students = new ArrayList<>();
         this.students = new LinkedHashSet<>();
         this.nextStudentID = 10000;
     }
@@ -45,10 +47,52 @@ public class StudentManager {
         OutputPrinter.printStudentIDs(students);
     }
 
-    // Method to add or update course points for a student
-    // public void addPoints(Student student, Course course, int points) {
-    //     student.addCoursePoints(course, points);
-    // }
+    public void updateStudentPoints(int studentID, Map<Course, Integer> coursePoints) {
+        Student student = getStudentByID(studentID);
+        if (student != null) {
+            for (Map.Entry<Course, Integer> entry : coursePoints.entrySet()) {
+                Course course = entry.getKey();
+                int newPoints = entry.getValue();
+                int existingPoints = student.getCoursePoints(course);
+                if (existingPoints == 0 && newPoints > 0) {
+                    enrollStudentInCourse(studentID, course);
+                }
+                if (newPoints > 0) {
+                    incrementActivityCounter(course);
+                }
+                student.addCoursePoints(course, newPoints);
+                updateCourseStats(course, newPoints);
+            }
+        }
+    }
 
-    // TODO: Add additional methods for managing students, such as retrieving, updating, or deleting students
+    private void enrollStudentInCourse(int studentID, Course course) {
+        courseEnrollments.computeIfAbsent(course, k -> new HashSet<>()).add(studentID);
+    }
+
+    public int getEnrollmentCount(Course course) {
+        return courseEnrollments.getOrDefault(course, Collections.emptySet()).size();
+    }
+
+    private void incrementActivityCounter(Course course) {
+        courseActivityCounters.merge(course, 1, Integer::sum);
+    }
+
+    public int getActivityCount(Course course) {
+        return courseActivityCounters.getOrDefault(course, 0);
+    }
+
+    private void updateCourseStats(Course course, int points) {
+        if (points > 0) {
+            courseTotalPoints.merge(course, points, Integer::sum);
+            courseSubmissionCounts.merge(course, 1, Integer::sum);
+        }
+    }
+
+    public double getAveragePoints(Course course) {
+        if (!courseSubmissionCounts.containsKey(course) || courseSubmissionCounts.get(course) == 0) {
+            return 0;
+        }
+        return (double) courseTotalPoints.getOrDefault(course, 0) / courseSubmissionCounts.get(course);
+    }
 }
