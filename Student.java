@@ -1,7 +1,9 @@
 package tracker;
 
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Student {
     private String firstName;
@@ -9,6 +11,8 @@ public class Student {
     private String emailAddress;
     private int studentID;
     private EnumMap<Course, Integer> coursePoints;
+    private Set<Course> completedCourses = new HashSet<>();
+    private Set<Course> notifiedCourses = new HashSet<>();
 
     public Student(String firstName, String lastName, String emailAddress) {
 
@@ -106,6 +110,22 @@ public class Student {
     // Method to get the points for a specific course
     public int getCoursePoints(Course course) {
         return coursePoints.getOrDefault(course, 0);
+    }
+
+    public void completeCourse(Course course) {
+        completedCourses.add(course);
+    }
+
+    public boolean isCourseCompleted(Course course) {
+        return completedCourses.contains(course);
+    }
+
+    public boolean isCourseNotified(Course course) {
+        return notifiedCourses.contains(course);
+    }
+
+    public void markCourseAsNotified(Course course) {
+        notifiedCourses.add(course);
     }
 
     @Override

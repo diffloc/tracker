@@ -21,6 +21,7 @@ public class CommandHandler {
         commandMap.put("add points", this::addPoints);
         commandMap.put("find", this::findStudent);
         commandMap.put("statistics", this::handleStatistics);
+        commandMap.put("notify", this::notifyStudents);
         commandMap.put("exit", UI::exitProgram);
     }
 
@@ -183,5 +184,10 @@ public class CommandHandler {
             }
             inputStudentID = InputReader.readInput();
         }
+    }
+
+    private void notifyStudents() {
+        NotificationService notificationService = new NotificationService(studentManager);
+        notificationService.sendNotifications();
     }
 }

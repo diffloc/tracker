@@ -54,6 +54,12 @@ public class StudentManager {
                 Course course = entry.getKey();
                 int newPoints = entry.getValue();
                 int existingPoints = student.getCoursePoints(course);
+                int totalPoints = existingPoints + newPoints;
+
+                if (!student.isCourseCompleted(course) && totalPoints >= course.getTotalPointsToPass()) {
+                    student.completeCourse(course);  // Mark the course as completed
+                }
+
                 if (existingPoints == 0 && newPoints > 0) {
                     enrollStudentInCourse(studentID, course);
                 }
